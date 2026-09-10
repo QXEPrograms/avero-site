@@ -1,0 +1,111 @@
+/* AVERO — dark résumé-style layout
+   Black / white / grey, hairlines, sidebar + content rows. Orange only in the logo and on hover. */
+
+:root {
+  --bg: #000;
+  --fg: #fff;
+  --muted: #8b8b8b;
+  --line: rgba(255, 255, 255, 0.18);
+  --orange: #ff751f;
+  --pad: clamp(20px, 2.6vw, 40px);
+  --side: 340px;
+  --gap: clamp(32px, 4vw, 64px);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-size: 17px;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+a:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+p { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+::selection { background: var(--orange); color: #000; }
+
+.muted { color: var(--muted); }
+.label { font-weight: 600; font-size: 15px; }
+
+/* ---------- arrow links ---------- */
+.arrow::after { content: "\00a0\2197"; font-size: 0.8em; opacity: .8; }
+a.arrow:hover { color: var(--orange); }
+
+/* ---------- header ---------- */
+.header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: var(--pad);
+}
+.brand { display: flex; align-items: center; gap: 18px; }
+.brand img { width: 56px; height: auto; flex: none; }
+.brand h1 { margin: 0; font-size: 26px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; }
+.brand h1 span { display: block; font-weight: 400; color: var(--muted); }
+.nav { display: flex; gap: 28px; font-size: 26px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
+.nav a:hover { color: var(--orange); }
+.nav a[aria-current="page"] { color: var(--muted); }
+@media (max-width: 640px) {
+  .header { flex-direction: column; gap: 20px; }
+  .brand h1, .nav { font-size: 21px; }
+}
+
+/* ---------- two columns ---------- */
+.layout {
+  display: grid;
+  grid-template-columns: var(--side) 1fr;
+  gap: var(--gap);
+  padding: clamp(80px, 22vh, 220px) var(--pad) 0;
+}
+.side, .content { border-top: 1px solid var(--line); }
+.side { padding-top: 40px; }
+.side .intro { padding: 0 8px 100px; max-width: 34ch; }
+.side .list { border-top: 1px solid var(--line); }
+.side .list a, .side .list p {
+  display: block; padding: 14px 8px;
+  border-bottom: 1px solid var(--line);
+  font-size: 15px; font-weight: 600;
+}
+.side .list p { font-weight: 400; color: var(--muted); }
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; padding-top: 60px; }
+  .side .intro { padding-bottom: 48px; }
+}
+
+/* ---------- content sections ---------- */
+.content { padding-top: 40px; }
+.section + .section { margin-top: 80px; }
+.section > .label { display: block; padding: 0 8px 36px; }
+.row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap);
+  padding: 40px 8px 56px;
+  border-top: 1px solid var(--line);
+}
+.row h3 { margin: 0 0 8px; font-size: 19px; font-weight: 600; letter-spacing: -0.015em; }
+.row .meta { color: var(--muted); }
+.row .meta a:hover { color: var(--orange); }
+.row ul li { position: relative; padding-left: 20px; margin-bottom: 14px; }
+.row ul li::before { content: "\2022"; position: absolute; left: 4px; }
+.row ul li:last-child { margin-bottom: 0; }
+@media (max-width: 640px) {
+  .row { grid-template-columns: 1fr; gap: 20px; padding: 28px 8px 36px; }
+}
+
+/* ---------- footer ---------- */
+.footer {
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;
+  padding: 160px var(--pad) var(--pad);
+  font-size: 15px; color: var(--muted);
+}
+.footer img { width: 120px; height: auto; }
+.footer a:hover { color: var(--orange); }
+@media (max-width: 640px) { .footer { flex-direction: column; align-items: flex-start; padding-top: 80px; } }
+
+.skip { position: fixed; top: -100px; left: var(--pad); z-index: 100; background: var(--fg); color: var(--bg); padding: 8px 12px; }
+.skip:focus { top: var(--pad); }
